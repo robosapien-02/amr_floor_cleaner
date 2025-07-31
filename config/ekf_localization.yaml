@@ -1,0 +1,87 @@
+ekf_filter_node:
+  ros__parameters:
+
+    # Frames
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_footprint
+    world_frame: odom   # usually set to odom for localization
+
+    # Frequency
+    frequency: 30.0
+    sensor_timeout: 0.1
+
+    # 2D mode (if your robot is not flying!)
+    two_d_mode: true
+
+    # Use control input?
+    use_control: false
+
+    # Enable diagnostics
+    print_diagnostics: true
+
+    # Odometry input (wheel odometry)
+    odom0: /odom_raw
+    odom0_config: [true,  true,  false,   # X, Y, Z position (Z false for 2D)
+                   false, false, true,   # Roll, Pitch, Yaw orientation
+                   true,  true,  false,   # X, Y, Z linear velocity
+                   false, false, true,    # Roll, Pitch, Yaw angular velocity
+                   false, false, false]   # Unused
+
+    odom0_differential: true
+    odom0_relative: false
+    odom0_queue_size: 10
+
+    # IMU input (orientation + angular velocity)
+    imu0: /imu
+    imu0_config: [false, false, false,   # X, Y, Z position (IMUs don't measure)
+                  true,  true,  true,    # Roll, Pitch, Yaw orientation
+                  true, true, true,   # X, Y, Z linear velocity
+                  false, false, true,    # Roll, Pitch, Yaw angular velocity
+                  false, false, false]   # acceleration
+
+    imu0_differential: true
+    imu0_relative: false
+    imu0_queue_size: 50
+    imu0_remove_gravitational_acceleration: true
+    # Optional If you know the IMU orientation is in a specific frame
+    imu0_frame: base_imu_link
+
+    # For localization mode, use the following (you can fine-tune later)
+    # Pose estimation will drift less if you use both odometry and IMU this way
+
+    # Initial covariance values (optional but recommended for stability)
+    initial_estimate_covariance: [0.01, 0, 0, 0, 0, 0,
+                                  0, 0.01, 0, 0, 0, 0,
+                                  0, 0, 0.01, 0, 0, 0,
+                                  0, 0, 0, 0.05, 0, 0,
+                                  0, 0, 0, 0, 0.05, 0,
+                                  0, 0, 0, 0, 0, 0.1]
+
+    process_noise_covariance: [0.05, 0, 0, 0, 0, 0,
+                              0, 0.05, 0, 0, 0, 0,
+                              0, 0, 0.001, 0, 0, 0,
+                              0, 0, 0, 0.01, 0, 0,
+                              0, 0, 0, 0, 0.01, 0,
+                              0, 0, 0, 0, 0, 0.1]
+
+    # Timeouts
+    transform_timeout: 0.2
+    transform_time_offset: 0.0
+
+    # Frames output
+    publish_tf: true
+    publish_acceleration: false
+
+    use_sim_time: false
+
+    # Output
+    history_length: 10
+    smooth_lagged_data: false
+
+    # For debug
+    debug: false
+
+    # If you want to record every parameter update
+    print_diagnostics: true
+

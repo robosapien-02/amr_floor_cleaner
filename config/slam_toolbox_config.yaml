@@ -1,0 +1,57 @@
+slam_toolbox:
+  ros__parameters:
+    # === General settings ===
+    use_sim_time: false              # false for real robot
+
+    # === Frame settings ===
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan                # Change if using a filtered/republished topic
+
+    # === SLAM mode ===
+    mode: mapping                    # "mapping" for SLAM, "localization" for pure localization
+
+    # === Map settings ===
+    resolution: 0.05                 # 5cm grid
+    max_laser_range: 6.0             # Match your Lidar specs (A1 = 8-12m real-world)
+    minimum_time_interval: 0.5       # Ignore scans that come faster than this (sec)
+
+    # === Publishing rates ===
+    map_update_interval: 1.0         # How often to update /map (sec)
+    transform_publish_period: 0.05   # How often to publish TF
+
+    # === Core algorithms ===
+    use_scan_matching: true
+    use_slam2d: true                 # Standard for 2D robots
+
+    # === Data association (pose graph) ===
+    minimum_travel_distance: 0.2     # (m) must move this far to add a new node
+    minimum_travel_heading: 0.17     # (rad) must rotate this much to add a new node
+    loop_closure_enabled: true
+    loop_detection_frequency: 1.0    # (Hz) check for loop closures
+    constraint_builder_max_constraint_distance: 15.0
+
+    # === Optimization (safe, default values) ===
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver_type: SPARSE_NORMAL_CHOLESKY
+
+    # === Map saving ===
+    auto_save_map: false             # Set true to auto-save when exiting (optional)
+    map_start_pose: [0.0, 0.0, 0.0]
+
+    # === Misc/advanced ===
+    publish_to_tf: true
+    publish_pose: true
+    debug_logging: false
+    enable_interactive_mode: false
+
+    scan_buffer_size: 10
+    scan_buffer_maximum_scan_distance: 6.0
+    do_loop_closing: true
+    loop_match_min_chain_size: 10
+    loop_match_max_variance_coarse: 3.0
+    loop_match_max_variance_fine: 1.0
+    minimum_angle_interval: 0.1
+    transform_timeout: 0.5
+
